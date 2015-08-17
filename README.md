@@ -1,0 +1,50 @@
+##EventBus介绍
+
+传统上，Java的进程内事件分发都是通过发布者和订阅者之间的显式注册实现的。一个常用的模式是使用监听器(Listener)接口。一个实现了Listener接口的类必须将自身注册到它想要监听的类中去。这就意味着监听者与被监听者之间存在强关联关系，他高度耦合，并使得单元测试难以开展。
+
+而EventBus就是取代这种显示注册方式的一个优雅的解决方案，他有两个主要特点：
+1. 使组件间有了更好的解耦
+2. 极大地简化代码
+
+
+## EventBus基本用法
+
+这里我们以Guava中的EventBus为例，写一个简单的demo看看其用法：
+
+```java
+public class TestEventBus {
+
+    public static void main(String[] args) throws Exception {
+        EventBus bus = new EventBus();
+        bus.register(new TestEventBus());
+        bus.post("hello world");
+        bus.post(123);
+    }
+
+    @Subscribe
+    public void onEvent01(String s) {
+        System.out.println("str: " + s);
+    }
+
+    @Subscribe
+    public void onEvent02(Integer i) {
+        System.out.println("int: " + i);
+    }
+}
+```
+
+执行一下，控制台打印如下输出：
+
+> str: hello world<br>
+> int: 123
+
+### 订阅
+
+观察demo源码，首先EventBus提供了register方法用来订阅事件，在这里我们传入订阅类的实例。而对于订阅方法，Guava提供了极度简化且友好的实现：无需实现任何的额外接口或继承基类，只需要在订阅方法上标注@Subscribe即可。
+
+这里多说一句，加注@Subscribe的方法需要为public，而且必须有且只有一个参数。
+
+### 发布
+
+对于发布者，则可以通过直接调用eventbus实例的post方法来发布事件。初步观察，事件的接收是由post传入的类型决定的。不过目前暂时无需探究这些，在今后的章节中我们会逐步展开。
+
