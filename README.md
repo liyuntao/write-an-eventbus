@@ -1,4 +1,4 @@
-[在线阅读地址](http://liyuntao.gitbooks.io/write-an-eventbus/content/)
+[《write-an-eventbus》在线阅读地址](http://liyuntao.gitbooks.io/write-an-eventbus/content/)
 
 ##这本书是什么
 本书介绍由google出品的工具类库Guava中EventBus的使用。并通过系列篇章以实现一个轮子的方式探究并理解其源码与设计思路。
